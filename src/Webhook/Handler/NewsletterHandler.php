@@ -21,5 +21,6 @@ class NewsletterHandler implements WebhookHandlerInterface
 
     public function handle(Webhook $webhook): void
     {
+        dd($webhook);
     }
 }
