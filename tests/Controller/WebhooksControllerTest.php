@@ -49,4 +49,11 @@ class WebhooksControllerTest extends WebTestCase
         $this->assertSame(Response::HTTP_NO_CONTENT, $this->webTester->getResponse()->getStatusCode());
     }
 
+    public function tearDown(): void
+    {
+        parent::tearDown();
+
+        restore_exception_handler();
+    }
+
 }
