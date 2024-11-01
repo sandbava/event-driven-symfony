@@ -28,5 +28,4 @@ class Webhook
     {
         $this->rawPayload = $rawPayload;
     }
-
 }

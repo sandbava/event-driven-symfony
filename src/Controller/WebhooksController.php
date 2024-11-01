@@ -1,4 +1,4 @@
-<?php // src/Controller/WebhooksController.php
+<?php
 
 declare(strict_types=1);
 
@@ -17,8 +17,7 @@ class WebhooksController extends AbstractController
     public function __construct(
         private SerializerInterface $serializer,
         private HandlerDelegator $handlerDelegator,
-    )
-    {
+    ) {
     }
 
     #[Route(path: '/webhook', name: 'webhook', methods: ['POST'])]
@@ -32,7 +31,5 @@ class WebhooksController extends AbstractController
         } catch (\Throwable $exception) {
             throw $exception;
         }
-
-
     }
 }

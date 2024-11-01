@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\CDP\Http;
 
+use App\CDP\Analytics\Model\ModelInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
