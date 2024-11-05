@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\DTO\Newsletter;
 
+use App\CDP\Analytics\Model\Subscription\SubscriptionSourceInterface;
 use App\DTO\User\User;
 use DateTimeImmutable;
 
-class NewsletterWebhook
+class NewsletterWebhook implements SubscriptionSourceInterface
 {
     private string $event;
     private string $id;
