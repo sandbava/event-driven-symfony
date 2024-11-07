@@ -27,7 +27,7 @@ class ModelValidator
             throw new WebhookException(
                 'Invalid ' . $reflectionClass->getShortName() . ' properties: ' .
                 implode(', ', $failingProperties)
-            )
+            );
         }
     }
 }
