@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\CDP\Analytics\Model\Subscription\Identify\IdentifyModel;
 use App\CDP\Http\CdpClientInterface;
 use App\Tests\TestDoubles\CDP\Http\FakeCdpClient;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -41,8 +42,24 @@ class WebhooksControllerTest extends WebTestCase
         );
 
         // Assert CdpClient::identify() called once
+        $this->assertSame(1, $this->cdpClient->getIdentifyCallCount());
 
         // Assert correct IdentifyModel is passed to CdpClient::identify() method
+        $identifyModel = $this->cdpClient->getIdentifyModel();
+        assert($identifyModel instanceof IdentifyModel);
+
+        $this->assertSame([
+            'type' => 'identify',
+            'context' => [
+                'product' => 'TechGadget-3000X',
+                'event_date' => '2024-12-12'
+            ],
+            'traits' => [
+                'subscription_id' => '12345',
+                'email' => 'email@example.com'
+            ],
+            'id' => '4a2b342d-6235-46a9-bc95-6e889b8e5de1'
+        ], $identifyModel->toArray());
 
         // Assert IdentifyModel::toArray() organizes data into format expected by CDP
 
