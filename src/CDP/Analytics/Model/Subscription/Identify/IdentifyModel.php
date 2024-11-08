@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 namespace App\CDP\Analytics\Model\Subscription\Identify;
-use Symfony\Component\Validator\Constraints as Assert;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\CDP\Analytics\Model\ModelInterface;
 
 class IdentifyModel implements ModelInterface
