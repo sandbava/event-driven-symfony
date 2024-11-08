@@ -48,6 +48,7 @@ class WebhooksControllerTest extends WebTestCase
         $identifyModel = $this->cdpClient->getIdentifyModel();
         assert($identifyModel instanceof IdentifyModel);
 
+        // Assert IdentifyModel::toArray() organizes data into format expected by CDP
         $this->assertSame([
             'type' => 'identify',
             'context' => [
@@ -60,8 +61,6 @@ class WebhooksControllerTest extends WebTestCase
             ],
             'id' => '4a2b342d-6235-46a9-bc95-6e889b8e5de1'
         ], $identifyModel->toArray());
-
-        // Assert IdentifyModel::toArray() organizes data into format expected by CDP
 
         // Assert CdpClient::track() called once
 
