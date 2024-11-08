@@ -2,6 +2,7 @@
 
 namespace App\Forwarder\Newsletter\Identify;
 
+use App\CDP\Analytics\Model\ModelValidator;
 use App\CDP\Analytics\Model\Subscription\Identify\IdentifyModel;
 use App\CDP\Analytics\Model\Subscription\Identify\SubscriptionStartMapper;
 use App\CDP\Http\CdpClientInterface;
@@ -13,7 +14,8 @@ class SubscriptionStartForwarder implements ForwarderInterface
     private const SUPPORTED_EVENT = 'newsletter_subscribed';
 
     public function __construct(
-        private CdpClientInterface $cdpClient
+        private CdpClientInterface $cdpClient,
+        private readonly ModelValidator $modelValidator
     ) {
     }
 
@@ -31,7 +33,7 @@ class SubscriptionStartForwarder implements ForwarderInterface
         (new SubscriptionStartMapper())->map($newsletterWebhook, $model);
 
         // Validate the model
-
+        $this->modelValidator->validate($model);
 
         // Use the CDP client to POST the data to the CDP
         $this->cdpClient->identify($model);
