@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use App\CDP\Analytics\Model\Subscription\Identify\IdentifyModel;
+use App\CDP\Analytics\Model\Subscription\Track\TrackModel;
 use App\CDP\Http\CdpClientInterface;
 use App\Tests\TestDoubles\CDP\Http\FakeCdpClient;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -63,10 +64,36 @@ class WebhooksControllerTest extends WebTestCase
         ], $identifyModel->toArray());
 
         // Assert CdpClient::track() called once
+        $this->assertSame(1, $this->cdpClient->getTrackCallCount());
 
         // Assert correct TrackModel is passed to CdpClient::track() method
+        $trackModel = $this->cdpClient->getTrackModel();
+        assert($trackModel instanceof TrackModel);
 
         // Assert TrackModel::toArray() organizes data into format expected by CDP
+        $this->assertSame([
+            'type' => 'track',
+            'event' => 'newsletter_subscribed',
+            'context' => [
+                'product' => 'TechGadget-3000X',
+                'event_date' => '2024-12-12',
+                'traits' => [
+                    'subscription_id' => '12345',
+                    'email' => 'email@example.com',
+                ],
+            ],
+            'properties' => [
+                'requires_consent' => true,
+                'platform' => 'web',
+                'product_name' => 'newsletter-001',
+                'renewal_date' => '2025-12-12',
+                'start_date' => '2024-12-12',
+                'status' => 'subscribed',
+                'type' => 'newsletter',
+                'is_promotion' => false,
+            ],
+            'id' => '4a2b342d-6235-46a9-bc95-6e889b8e5de1'
+        ], $trackModel->toArray());
 
         $this->assertSame(Response::HTTP_NO_CONTENT, $this->webTester->getResponse()->getStatusCode());
     }
