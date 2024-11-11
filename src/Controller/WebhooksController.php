@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\DTO\Webhook;
+use App\Error\ErrorHandlerInterface;
 use App\Webhook\Handler\HandlerDelegator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,7 @@ class WebhooksController extends AbstractController
     public function __construct(
         private SerializerInterface $serializer,
         private HandlerDelegator $handlerDelegator,
+        private ErrorHandlerInterface $errorHandler,
     ) {
     }
 
@@ -28,8 +30,9 @@ class WebhooksController extends AbstractController
             $webhook->setRawPayload($request->getContent());
             $this->handlerDelegator->delegate($webhook);
             return new Response(status: 204);
-        } catch (\Throwable $exception) {
-            throw $exception;
+        } catch (\Throwable $throwable) {
+            $this->errorHandler->handle($throwable);
+            return new Response(status: 400);
         }
     }
 }
