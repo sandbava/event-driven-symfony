@@ -9,13 +9,12 @@ use App\Error\Exception\WebhookException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class CdpClient
+class CdpClient implements CdpClientInterface
 {
-    private const CDP_API_URL = 'https://some-cdp-api.com';
-
     public function __construct(
         private HttpClientInterface $httpClient,
-        #[Autowire('%cdp.api_key%')] private string $apiKey
+        #[Autowire('%cdp.api_key%')] private string $apiKey,
+        #[Autowire('%env(CDP_URL)%')] private readonly string $cdpUrl
     ) {
     }
 
@@ -23,7 +22,7 @@ class CdpClient
     {
         $response = $this->httpClient->request(
             'POST',
-            self::CDP_API_URL . '/track',
+            $this->cdpUrl . '/track',
             [
                 'body' => json_encode($model->toArray(), JSON_THROW_ON_ERROR),
                 'headers' => [
@@ -48,7 +47,7 @@ class CdpClient
     {
         $response = $this->httpClient->request(
             'POST',
-            self::CDP_API_URL . '/identify',
+            $this->cdpUrl . '/identify',
             [
                 'body' => json_encode($model->toArray(), JSON_THROW_ON_ERROR),
                 'headers' => [
