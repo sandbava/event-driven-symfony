@@ -35,7 +35,7 @@ class CdpClient
 
         // Add error handling
         try {
-          $response->toArray();
+            $response->toArray();
         } catch (\Throwable $exception) {
             throw new WebhookException(
                 message: $response->getContent(false),

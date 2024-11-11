@@ -8,7 +8,6 @@ use App\Error\ErrorHandlerInterface;
 
 class DebugErrorHandler implements ErrorHandlerInterface
 {
-
     public function handle(\Throwable $throwable): void
     {
         throw $throwable;

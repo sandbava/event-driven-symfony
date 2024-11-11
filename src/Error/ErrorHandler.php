@@ -8,10 +8,8 @@ use App\Error\ErrorHandlerInterface;
 
 class ErrorHandler implements ErrorHandlerInterface
 {
-
     public function handle(\Throwable $throwable): void
     {
         // Log / alert to a centralized system (Cloudwatch / Datadog etc.)
     }
 }
-
