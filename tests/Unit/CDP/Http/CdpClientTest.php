@@ -21,7 +21,7 @@ class CdpClientTest extends TestCase
 
         $mockHttpClient = new MockHttpClient($responses);
 
-        $unit = new CdpClient($mockHttpClient, 'fake-api-key');
+        $unit = new CdpClient($mockHttpClient, 'fake-api-key', 'http://some-fake-url');
 
         try {
             $mockTrackModel = $this->createMock(ModelInterface::class);
